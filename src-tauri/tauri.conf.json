@@ -1,0 +1,49 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "clockedin",
+  "version": "0.1.0",
+  "identifier": "com.clockedin.app",
+  "build": {
+    "beforeDevCommand": "npm run dev",
+    "devUrl": "http://localhost:1420",
+    "beforeBuildCommand": "npm run build",
+    "frontendDist": "../dist"
+  },
+  "app": {
+    "windows": [
+      {
+        "title": "ClockedIn",
+        "width": 800,
+        "height": 650,
+        "minWidth": 400,
+        "minHeight": 300,
+        "resizable": true,
+        "transparent": false,
+        "visible": true,
+        "decorations": true,
+        "fullscreen": false,
+        "alwaysOnTop": false,
+        "center": true,
+        "maximizable": true,
+        "minimizable": true,
+        "skipTaskbar": false,
+        "theme": "Dark",
+        "userAgent": "MyApp/1.0"
+      }
+    ],
+    "security": {
+      "csp": null
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": "all",
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.icns",
+      "icons/logo_nobg_adobe.ico"
+    ]
+  }
+}
