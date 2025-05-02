@@ -17,14 +17,20 @@
 ## 🛠️ Tech Stack
 
 - **Frontend**: [React](https://reactjs.org/)
-- **Containerization**: [Docker](https://www.docker.com/)
+- **Backend**: [Tauri](https://tauri.app/)
+
 
 ---
 
-## 🐳 Quick Start (Docker)
+## 🐳 Quick Start (developer)
 
 1. **Clone the repo**  
    ```bash
-   git clone https://github.com/your-username/clockedin.git
+   git clone https://github.com/devjuhis/ClockedIn.git
    cd clockedin
+
+## Quick start (users)
+
+1. **Download installer**
+   You can find the installer in github releases in this repo
 
