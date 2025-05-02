@@ -2,6 +2,7 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
+import Start from "./pages/start";
 import Home from "./pages/home";
 import Project from "./pages/project";
 import Statistics from "./pages/statistics";
@@ -49,6 +50,7 @@ function App() {
             <TimerProvider>
                 <Router>
                     <Routes>
+                        {/*<Route path="/" element={<Start />} />*/}
                         <Route path="/" element={<Home />} />
                         <Route path="/project/:id" element={<Project />} />
                         <Route path="/statistics" element={<Statistics />} />

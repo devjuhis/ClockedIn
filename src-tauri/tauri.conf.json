@@ -28,7 +28,8 @@
         "minimizable": true,
         "skipTaskbar": false,
         "theme": "Dark",
-        "userAgent": "MyApp/1.0"
+        "userAgent": "ClockedIn/1.0",
+        "devtools": true
       }
     ],
     "security": {

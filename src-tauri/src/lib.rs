@@ -9,21 +9,17 @@ fn greet(name: &str) -> String {
 pub fn run() {
     let migrations = vec![
         Migration {
-            version: 1,
-            description: "create projects table",
-            sql: "CREATE TABLE IF NOT EXISTS projects (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                title TEXT NOT NULL,
-                description TEXT,
-                category TEXT NOT NULL
-            )",
-            kind: MigrationKind::Up,
-        },
-        Migration {
-            version: 2,
-            description: "create sessions table",
+            version: 3,
+            description: "create projects and sessions tables",
             sql: "
-                CREATE TABLE  IF NOT EXISTS sessions (
+                CREATE TABLE IF NOT EXISTS projects (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    title TEXT NOT NULL,
+                    description TEXT,
+                    category TEXT NOT NULL
+                );
+        
+                CREATE TABLE IF NOT EXISTS sessions (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     project_id INTEGER NOT NULL,
                     session_length INTEGER NOT NULL,

@@ -15,23 +15,27 @@ import AddIcon from "@mui/icons-material/Add";
 import DesignServicesIcon from "@mui/icons-material/DesignServicesOutlined";
 import AutoStoriesOutlinedIcon from "@mui/icons-material/AutoStoriesOutlined";
 import BarChartIcon from '@mui/icons-material/BarChart';
+import SportsEsportsOutlinedIcon from '@mui/icons-material/SportsEsportsOutlined';
+import WorkOutlineOutlinedIcon from '@mui/icons-material/WorkOutlineOutlined';
 
 import { useNavigate } from "react-router-dom";
 import { useTimer } from "../context/timerContext";
 import NewProjectModal from "../components/newProjectModal";
 import { getProjects } from "../functions/projectFunctions";
-import { useState, useLayoutEffect } from "react";
+import { useState, useEffect } from "react";
 
 const getCategoryIcon = (category) => {
     switch (category) {
         case "code":
             return <CodeIcon sx={{ fontSize: 80 }} />;
-        case "sports":
-            return <SportsVolleyballOutlinedIcon sx={{ fontSize: 80 }} />;
+        case "work":
+            return <WorkOutlineOutlinedIcon sx={{ fontSize: 80 }} />;
         case "design":
             return <DesignServicesIcon sx={{ fontSize: 80 }} />;
         case "school":
             return <AutoStoriesOutlinedIcon sx={{ fontSize: 80 }} />;
+        case "hobby":
+            return <SportsEsportsOutlinedIcon sx={{ fontSize: 80 }} />;
         default:
             return null;
     }
@@ -42,18 +46,21 @@ export default function Home() {
     const { start, stop, activeProjectId } = useTimer();
     const [projects, setProjects] = useState([]);
     const [openModal, setOpenModal] = useState(false);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
 
-    useLayoutEffect(() => {
+    useEffect(() => {
+        console.log("useEffect started");
+        
         async function loadProjects() {
             setLoading(true);
-            await new Promise(resolve => setTimeout(resolve, 1000)); 
             const result = await getProjects();
+            console.log("Projects result in useEffect:", result);
             if (result) {
                 setProjects(result);
             }
             setLoading(false);
         }
+    
         loadProjects();
     }, []);
 

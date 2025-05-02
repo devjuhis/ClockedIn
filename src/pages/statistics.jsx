@@ -55,11 +55,11 @@ export default function Statistics() {
                 id: session.project_id,
                 name: session.title,
                 time: session.session_length,
-                date: session.date,
                 sessions: [session],
             });
         }
     });
+    
 
     const timePerProject = projects.map(project => ({
         name: project.name,
@@ -68,12 +68,22 @@ export default function Statistics() {
         )  
     }));
 
-    const sessionsByDate = projects.map(project => ({
-        date: project.date,
-        duration: parseFloat(
-            (project.sessions.reduce((total, session) => total + session.session_length, 0) / 3600).toFixed(3)
-        )        
+    const sessionsByDate = projects
+    .flatMap(project => project.sessions)
+    .reduce((acc, session) => {
+        const { date, session_length } = session;
+        if (!acc[date]) {
+            acc[date] = { date, duration: 0 };
+        }
+        acc[date].duration += session_length;
+        return acc;
+    }, {});
+
+    const formattedSessions = Object.values(sessionsByDate).map(session => ({
+        date: session.date,
+        duration: parseFloat((session.duration / 3600).toFixed(3))
     }));
+
 
     
 
@@ -96,10 +106,11 @@ export default function Statistics() {
                         <BarChart data={timePerProject}>
                             <XAxis dataKey="name" />
                             <YAxis />
-                            <Tooltip />
+                            <Tooltip cursor={{fill: 'none'}} />
                             <Bar
                                 dataKey="time"
                                 fill={theme.palette.primary.main}
+                                unit={" hours"}
                             />
                         </BarChart>
                     </ResponsiveContainer>
@@ -137,7 +148,7 @@ export default function Statistics() {
                         Session Length Over Time (hours)
                     </Typography>
                     <ResponsiveContainer width="100%" height={300}>
-                        <LineChart data={sessionsByDate}>
+                        <LineChart data={formattedSessions}>
                             <XAxis dataKey="date" />
                             <YAxis />
                             <Tooltip />

@@ -95,9 +95,10 @@ export default function AddProjectModal({ open, onClose, onSubmit, id, initialDa
                         label="Category"
                     >
                         <MenuItem value="code">Code</MenuItem>
-                        <MenuItem value="sports">Sports</MenuItem>
+                        <MenuItem value="work">Work</MenuItem>
                         <MenuItem value="design">Design</MenuItem>
                         <MenuItem value="school">School</MenuItem>
+                        <MenuItem value="hobby">Hobby</MenuItem>
                     </Select>
                 </FormControl>
 

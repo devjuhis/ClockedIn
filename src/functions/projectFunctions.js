@@ -34,11 +34,10 @@ export async function getProjects() {
     try {
         const db = await Database.load("sqlite:test.db");
         const Projects = await db.select("SELECT * FROM projects");
-
         return Projects;
     } catch (error) {
-        console.log(error);
-        setError("Failed to get projects - check console");
+        console.error("Failed to get projects:", error);
+        return [];
     }
 }
 
