@@ -2,7 +2,7 @@ import Database from "@tauri-apps/plugin-sql";
 
 export async function setSession(session) {
     try {
-        const db = await Database.load("sqlite:test.db");
+        const db = await Database.load("sqlite:test_v3.db");
 
         await db.execute(
             "INSERT INTO sessions (project_id, session_length, comment) VALUES ($1, $2, $3)",
@@ -18,7 +18,7 @@ export async function setSession(session) {
 
 export async function getSessions(project_id) {
     try {
-        const db = await Database.load("sqlite:test.db");
+        const db = await Database.load("sqlite:test_v3.db");
         const sessions = await db.select("SELECT * FROM sessions WHERE project_id = $1", [project_id]);
 
         return sessions;
@@ -30,7 +30,7 @@ export async function getSessions(project_id) {
 
 export async function getAllSessions() {
     try {
-        const db = await Database.load("sqlite:test.db");
+        const db = await Database.load("sqlite:test_v3.db");
         const sessions = await db.select("SELECT * FROM sessions s join projects p on s.project_id = p.id");
 
         return sessions;
@@ -42,7 +42,7 @@ export async function getAllSessions() {
 
 export async function deleteSession(id) {
     try {
-        const db = await Database.load("sqlite:test.db");
+        const db = await Database.load("sqlite:test_v3.db");
         await db.execute("DELETE FROM sessions WHERE id = $1", [id]);
 
         return true;

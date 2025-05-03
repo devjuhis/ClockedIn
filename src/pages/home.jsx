@@ -6,7 +6,7 @@ import {
     Box,
     Button,
     Stack,
-    CircularProgress
+    CircularProgress,
 } from "@mui/material";
 
 import SportsVolleyballOutlinedIcon from "@mui/icons-material/SportsVolleyballOutlined";
@@ -14,9 +14,11 @@ import CodeIcon from "@mui/icons-material/Code";
 import AddIcon from "@mui/icons-material/Add";
 import DesignServicesIcon from "@mui/icons-material/DesignServicesOutlined";
 import AutoStoriesOutlinedIcon from "@mui/icons-material/AutoStoriesOutlined";
-import BarChartIcon from '@mui/icons-material/BarChart';
-import SportsEsportsOutlinedIcon from '@mui/icons-material/SportsEsportsOutlined';
-import WorkOutlineOutlinedIcon from '@mui/icons-material/WorkOutlineOutlined';
+import BarChartIcon from "@mui/icons-material/BarChart";
+import SportsEsportsOutlinedIcon from "@mui/icons-material/SportsEsportsOutlined";
+import WorkOutlineOutlinedIcon from "@mui/icons-material/WorkOutlineOutlined";
+
+import AnimatedPage from "../components/animatedPage";
 
 import { useNavigate } from "react-router-dom";
 import { useTimer } from "../context/timerContext";
@@ -50,7 +52,7 @@ export default function Home() {
 
     useEffect(() => {
         console.log("useEffect started");
-        
+
         async function loadProjects() {
             setLoading(true);
             const result = await getProjects();
@@ -60,7 +62,7 @@ export default function Home() {
             }
             setLoading(false);
         }
-    
+
         loadProjects();
     }, []);
 
@@ -76,7 +78,6 @@ export default function Home() {
             </Box>
         );
     }
-    
 
     const toggleStartProject = (id) => {
         if (activeProjectId == id) {
@@ -103,193 +104,211 @@ export default function Home() {
     };
 
     return (
-        <Box py={4} px={4}>
-            <Grid container spacing={2}>
-                <Grid item xs={12} sm={6} md={4}>
-                    <Box
-                        sx={{
-                            display: "flex",
-                            flexDirection: "column",
-                            gap: 1,
-                            width: "225px",
-                            height: "100%",
-                        }}
-                    >
-                        <Card
+        <AnimatedPage>
+            <Box py={4} px={4}>
+                <Grid container spacing={2}>
+                    <Grid item xs={12} sm={6} md={4}>
+                        <Box
                             sx={{
                                 display: "flex",
                                 flexDirection: "column",
-                                justifyContent: "center",
+                                gap: 1,
+                                width: "225px",
                                 height: "100%",
-                                cursor: "pointer",
-                                alignItems: "center",
-                                textAlign: "center",
-                                p: 2,
                             }}
                         >
-                            <Box
+                            <Card
                                 sx={{
-                                    flex: 1,
                                     display: "flex",
                                     flexDirection: "column",
                                     justifyContent: "center",
+                                    height: "100%",
+                                    cursor: "pointer",
                                     alignItems: "center",
-                                    mb: 2,
+                                    textAlign: "center",
+                                    p: 2,
                                 }}
-                                onClick={() => handleOpenModal()}
                             >
-                                <AddIcon
+                                <Box
                                     sx={{
-                                        fontSize: 50,
-                                        color: "primary.main",
+                                        flex: 1,
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        justifyContent: "center",
+                                        alignItems: "center",
+                                        mb: 2,
                                     }}
-                                />
-                                <Typography variant="h6" color="textSecondary" fontSize={15}>
-                                    Add New Project
-                                </Typography>
-                            </Box>
-                        </Card>
+                                    onClick={() => handleOpenModal()}
+                                >
+                                    <AddIcon
+                                        sx={{
+                                            fontSize: 50,
+                                            color: "primary.main",
+                                        }}
+                                    />
+                                    <Typography
+                                        variant="h6"
+                                        color="textSecondary"
+                                        fontSize={15}
+                                    >
+                                        Add New Project
+                                    </Typography>
+                                </Box>
+                            </Card>
 
-                        <Card
-                            sx={{
-                                display: "flex",
-                                flexDirection: "column",
-                                justifyContent: "center",
-                                height: "100%",
-                                cursor: "pointer",
-                                alignItems: "center",
-                                textAlign: "center",
-                                p: 2,
-                            }}
-                        >
-                            <Box
+                            <Card
                                 sx={{
-                                    flex: 1,
                                     display: "flex",
                                     flexDirection: "column",
                                     justifyContent: "center",
+                                    height: "100%",
+                                    cursor: "pointer",
                                     alignItems: "center",
-                                    mb: 2,
+                                    textAlign: "center",
+                                    p: 2,
                                 }}
-                                onClick={() => handleOpenStatistics()}
                             >
-                                <BarChartIcon
+                                <Box
                                     sx={{
-                                        fontSize: 50,
-                                        color: "primary.main",
+                                        flex: 1,
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        justifyContent: "center",
+                                        alignItems: "center",
+                                        mb: 2,
                                     }}
-                                />
-                                <Typography variant="h6" color="textSecondary" fontSize={15}>
-                                    Open statistics
-                                </Typography>
-                            </Box>
-                        </Card>
-                    </Box>
+                                    onClick={() => handleOpenStatistics()}
+                                >
+                                    <BarChartIcon
+                                        sx={{
+                                            fontSize: 50,
+                                            color: "primary.main",
+                                        }}
+                                    />
+                                    <Typography
+                                        variant="h6"
+                                        color="textSecondary"
+                                        fontSize={15}
+                                    >
+                                        Open statistics
+                                    </Typography>
+                                </Box>
+                            </Card>
+                        </Box>
+                    </Grid>
+
+                    {projects.map((project) => (
+                        <Grid item xs={12} sm={6} md={4} key={project.id}>
+                            <Card
+                                sx={{
+                                    height: "100%",
+                                    display: "flex",
+                                    flexDirection: "column",
+                                    justifyContent: "space-between",
+                                    width: "225px",
+                                    position: "relative",
+                                }}
+                            >
+                                {activeProjectId == project.id && (
+                                    <Typography
+                                        variant="caption"
+                                        color="primary"
+                                        sx={{
+                                            position: "absolute",
+                                            top: 10,
+                                            right: 10,
+                                            backgroundColor: "primary.main",
+                                            color: "white",
+                                            padding: "2px 5px",
+                                            borderRadius: "5px",
+                                        }}
+                                    >
+                                        Timer Running
+                                    </Typography>
+                                )}
+
+                                <CardContent>
+                                    <Typography variant="h6"
+                                        sx={{
+                                            display: "-webkit-box",
+                                            WebkitBoxOrient: "vertical",
+                                            overflow: "hidden",
+                                            WebkitLineClamp: 1,
+                                            textOverflow: "ellipsis",
+                                            height: "30px",
+                                        }}>
+                                        {project.title}
+                                    </Typography>
+                                    <Typography
+                                        variant="body2"
+                                        gutterBottom
+                                        color="text.secondary"
+                                    >
+                                        {project.category}
+                                    </Typography>
+
+                                    <Box
+                                        display="flex"
+                                        justifyContent="center"
+                                        my={2}
+                                    >
+                                        {getCategoryIcon(project.category)}
+                                    </Box>
+
+                                    <Typography
+                                        variant="body2"
+                                        color="text.secondary"
+                                        gutterBottom
+                                        sx={{
+                                            display: "-webkit-box",
+                                            WebkitBoxOrient: "vertical",
+                                            overflow: "hidden",
+                                            WebkitLineClamp: 2,
+                                            textOverflow: "ellipsis",
+                                            height: "40px",
+                                        }}
+                                    >
+                                        {project.description}
+                                    </Typography>
+
+                                    <Stack direction="row" spacing={2} mt={2}>
+                                        <Button
+                                            variant="contained"
+                                            fullWidth
+                                            onClick={() =>
+                                                toggleStartProject(project.id)
+                                            }
+                                        >
+                                            {activeProjectId == project.id
+                                                ? "Stop"
+                                                : "Start"}
+                                        </Button>
+
+                                        <Button
+                                            variant="outlined"
+                                            fullWidth
+                                            onClick={() =>
+                                                handleOpenProject(project.id)
+                                            }
+                                        >
+                                            View
+                                        </Button>
+                                    </Stack>
+                                </CardContent>
+                            </Card>
+                        </Grid>
+                    ))}
                 </Grid>
 
-                {projects.map((project) => (
-                    <Grid item xs={12} sm={6} md={4} key={project.id}>
-                        <Card
-                            sx={{
-                                height: "100%",
-                                display: "flex",
-                                flexDirection: "column",
-                                justifyContent: "space-between",
-                                width: "225px",
-                                position: "relative",
-                            }}
-                        >
-                            {activeProjectId == project.id && (
-                                <Typography
-                                    variant="caption"
-                                    color="primary"
-                                    sx={{
-                                        position: "absolute",
-                                        top: 10,
-                                        right: 10,
-                                        backgroundColor: "primary.main",
-                                        color: "white",
-                                        padding: "2px 5px",
-                                        borderRadius: "5px",
-                                    }}
-                                >
-                                    Timer Running
-                                </Typography>
-                            )}
-
-                            <CardContent>
-                                <Typography variant="h6">
-                                    {project.title}
-                                </Typography>
-                                <Typography
-                                    variant="body2"
-                                    gutterBottom
-                                    color="text.secondary"
-                                >
-                                    {project.category}
-                                </Typography>
-
-                                <Box
-                                    display="flex"
-                                    justifyContent="center"
-                                    my={2}
-                                >
-                                    {getCategoryIcon(project.category)}
-                                </Box>
-
-                                <Typography
-                                    variant="body2"
-                                    color="text.secondary"
-                                    gutterBottom
-                                    sx={{
-                                        display: "-webkit-box",
-                                        WebkitBoxOrient: "vertical",
-                                        overflow: "hidden",
-                                        WebkitLineClamp: 2,
-                                        textOverflow: "ellipsis",
-                                        height: "40px",
-                                    }}
-                                >
-                                    {project.description}
-                                </Typography>
-
-                                <Stack direction="row" spacing={2} mt={2}>
-                                    <Button
-                                        variant="contained"
-                                        fullWidth
-                                        onClick={() =>
-                                            toggleStartProject(project.id)
-                                        }
-                                    >
-                                        {activeProjectId == project.id
-                                            ? "Stop"
-                                            : "Start"}
-                                    </Button>
-
-                                    <Button
-                                        variant="outlined"
-                                        fullWidth
-                                        onClick={() =>
-                                            handleOpenProject(project.id)
-                                        }
-                                    >
-                                        View
-                                    </Button>
-                                </Stack>
-                            </CardContent>
-                        </Card>
-                    </Grid>
-                ))}
-            </Grid>
-
-            <NewProjectModal
-                open={openModal}
-                onClose={handleCloseModal}
-                onSubmit={async () => {
-                    const refreshed = await getProjects();
-                    setProjects(refreshed);
-                }}
-            />
-        </Box>
+                <NewProjectModal
+                    open={openModal}
+                    onClose={handleCloseModal}
+                    onSubmit={async () => {
+                        const refreshed = await getProjects();
+                        setProjects(refreshed);
+                    }}
+                />
+            </Box>
+        </AnimatedPage>
     );
 }

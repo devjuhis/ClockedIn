@@ -9,14 +9,15 @@ fn greet(name: &str) -> String {
 pub fn run() {
     let migrations = vec![
         Migration {
-            version: 3,
+            version: 1,
             description: "create projects and sessions tables",
             sql: "
                 CREATE TABLE IF NOT EXISTS projects (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     title TEXT NOT NULL,
                     description TEXT,
-                    category TEXT NOT NULL
+                    category TEXT NOT NULL,
+                    price REAL DEFAULT 0.0
                 );
         
                 CREATE TABLE IF NOT EXISTS sessions (
@@ -36,7 +37,7 @@ pub fn run() {
     println!("Migration for creating table initialized.");
 
     // Define the database path directly
-    let db_path = "sqlite:test.db";
+    let db_path = "sqlite:test_v3.db";
     println!("Using database at: {}", db_path);
 
     tauri::Builder::default()

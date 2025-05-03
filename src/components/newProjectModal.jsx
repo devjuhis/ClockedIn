@@ -17,12 +17,14 @@ export default function AddProjectModal({ open, onClose, onSubmit, id, initialDa
     const [title, setTitle] = useState("");
     const [category, setCategory] = useState("");
     const [description, setDescription] = useState("");
+    const [price, setPrice] = useState(0);
 
     useEffect(() => {
         if (id && initialData) {
             setTitle(initialData.title);
             setCategory(initialData.category);
             setDescription(initialData.description);
+            setPrice(initialData.price);
         }
     }, [id, initialData]);
 
@@ -34,7 +36,7 @@ export default function AddProjectModal({ open, onClose, onSubmit, id, initialDa
             return;
         }
 
-        const projectData = { title, description, category };
+        const projectData = { title, description, category, price };
 
         if (id) {
             // If ID exists, update the project
@@ -53,6 +55,7 @@ export default function AddProjectModal({ open, onClose, onSubmit, id, initialDa
         setTitle("");
         setCategory("");
         setDescription("");
+        setPrice(0);
     };
 
     return (
@@ -111,6 +114,16 @@ export default function AddProjectModal({ open, onClose, onSubmit, id, initialDa
                     variant="outlined"
                     multiline
                     rows={4}
+                />
+
+                <TextField
+                    fullWidth
+                    label="Hourly Rate €"
+                    type="number"
+                    value={price}
+                    onChange={(e) => setPrice(e.target.value)}
+                    margin="normal"
+                    variant="outlined"
                 />
 
                 <Box mt={2} display="flex" justifyContent="flex-end" gap={2}>

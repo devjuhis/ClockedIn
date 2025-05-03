@@ -2,11 +2,11 @@ import Database from "@tauri-apps/plugin-sql";
 
 export async function setProject(project) {
     try {
-        const db = await Database.load("sqlite:test.db");
+        const db = await Database.load("sqlite:test_v3.db");
 
         await db.execute(
-            "INSERT INTO projects (title, description, category) VALUES ($1, $2, $3)",
-            [project.title, project.description, project.category]
+            "INSERT INTO projects (title, description, category, price) VALUES ($1, $2, $3, $4)",
+            [project.title, project.description, project.category, project.price]
         );
     } catch (error) {
         console.log(error);
@@ -14,12 +14,12 @@ export async function setProject(project) {
     }
 }
 
-export async function updateProject(id, { title, description, category }) {
+export async function updateProject(id, { title, description, category, price }) {
     try {
-        const db = await Database.load("sqlite:test.db");
+        const db = await Database.load("sqlite:test_v3.db");
 
         await db.execute(
-            "UPDATE projects SET title = ?, description = ?, category = ? WHERE id = ?",
+            "UPDATE projects SET title = ?, description = ?, category = ?, price = ? WHERE id = ?",
             [title, description, category, id]
         );
 
@@ -32,7 +32,7 @@ export async function updateProject(id, { title, description, category }) {
 
 export async function getProjects() {
     try {
-        const db = await Database.load("sqlite:test.db");
+        const db = await Database.load("sqlite:test_v3.db");
         const Projects = await db.select("SELECT * FROM projects");
         return Projects;
     } catch (error) {
@@ -43,7 +43,7 @@ export async function getProjects() {
 
 export async function getProject(id) {
     try {
-        const db = await Database.load("sqlite:test.db");
+        const db = await Database.load("sqlite:test_v3.db");
         const Projects = await db.select(
             "SELECT * FROM projects WHERE id = $1",
             [id]
@@ -58,7 +58,7 @@ export async function getProject(id) {
 
 export async function deleteProject(id) {
     try {
-        const db = await Database.load("sqlite:test.db");
+        const db = await Database.load("sqlite:test_v3.db");
         await db.execute("DELETE FROM projects WHERE id = ?", [id]);
         console.log("project deleted");
         return true;
