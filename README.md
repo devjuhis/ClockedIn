@@ -26,6 +26,14 @@
 - ⚛️ Built with modern React stack
 
 ---
+
+## Screens
+
+<p align="center">
+  <img src="https://github.com/devjuhis/ClockedIn/blob/main/src/assets/homeScreen.png" alt="Clockedin home screen" width="500"/>
+  <img src="https://github.com/devjuhis/ClockedIn/blob/main/src/assets/newProject.png" alt="Add new project screen" width="500"/>
+  <img src="https://github.com/devjuhis/ClockedIn/blob/main/src/assets/project.png" alt="Project screen" width="500"/>
+  <img src="https://github.com/devjuhis/ClockedIn/blob/main/src/assets/statistics.png" alt="Statistics screen" width="500"/>
   
 
 ## 🛠️ Tech Stack
