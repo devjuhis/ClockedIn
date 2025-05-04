@@ -12,10 +12,13 @@ import {
 } from "@mui/material";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import EditNoteOutlinedIcon from "@mui/icons-material/EditNoteOutlined";
+import EditNoteIcon from "@mui/icons-material/EditNote";
+import AddIcon from '@mui/icons-material/Add';
 
 import BackButton from "../components/BackButton";
 import Timercontrols from "../components/Timercontrols";
 import ProjectModal from "../components/newProjectModal";
+import SessionModal from "../components/sessionModal";
 import TotalSessionTime from "../components/timeUsed";
 import { useTimer } from "../context/timerContext";
 import AnimatedPage from "../components/animatedPage";
@@ -26,8 +29,10 @@ import { getSessions, deleteSession } from "../functions/sessionFunctions";
 export default function Project() {
     const { id } = useParams();
     const [project, setProject] = useState(null);
-    const [sessions, setSessions] = useState(null);
-    const [openModal, setOpenModal] = useState(false);
+    const [sessions, setSessions] = useState([]);
+    const [openProjectModal, setOpenProjectModal] = useState(false);
+    const [openSessionModal, setOpenSessionModal] = useState(false);
+    const [editingSession, setEditingSession] = useState(null);
 
     const { sessionUpdated, setSessionUpdated, resetSessionUpdated } =
         useTimer();
@@ -39,8 +44,7 @@ export default function Project() {
 
     async function fetchSessions() {
         const result = await getSessions(id);
-        const reversedSessions = [...result].reverse();
-        setSessions(reversedSessions);
+        setSessions([...result].reverse());
     }
 
     useEffect(() => {
@@ -67,23 +71,37 @@ export default function Project() {
         }
     };
 
-    const handleDeleteSession = async (id) => {
+    const handleDeleteSession = async (sessionId) => {
         const isConfirmed = window.confirm(
             "Are you sure you want to delete this session?"
         );
         if (isConfirmed) {
-            await deleteSession(id);
+            await deleteSession(sessionId);
             await fetchSessions();
             setSessionUpdated((prev) => !prev);
         }
     };
 
-    const handleCloseModal = () => {
-        setOpenModal(false);
+    const handleEditSession = (session) => {
+        setEditingSession(session);
+        setOpenSessionModal(true);
     };
 
-    const handleOpenModal = () => {
-        setOpenModal(true);
+    const handleOpenSessionModal = () => {
+        setOpenSessionModal(true);
+    }
+
+    const handleCloseSessionModal = () => {
+        setOpenSessionModal(false);
+        setEditingSession(null);
+    };
+
+    const handleOpenProjectModal = () => {
+        setOpenProjectModal(true);
+    };
+
+    const handleCloseProjectModal = () => {
+        setOpenProjectModal(false);
     };
 
     if (!project) return <Typography>Project not found</Typography>;
@@ -105,14 +123,14 @@ export default function Project() {
                     <Button variant="contained" onClick={handleDeleteProject}>
                         <DeleteOutlinedIcon />
                     </Button>
-                    <Button variant="contained" onClick={handleOpenModal}>
+                    <Button variant="contained" onClick={handleOpenProjectModal}>
                         <EditNoteOutlinedIcon />
                     </Button>
                 </Stack>
 
                 <ProjectModal
-                    open={openModal}
-                    onClose={handleCloseModal}
+                    open={openProjectModal}
+                    onClose={handleCloseProjectModal}
                     initialData={project}
                     id={id}
                     onSubmit={async () => {
@@ -121,33 +139,47 @@ export default function Project() {
                     }}
                 />
 
-                <TotalSessionTime projectId={project.id}></TotalSessionTime>
+                <TotalSessionTime projectId={project.id} />
 
                 {sessions && sessions.length > 0 && (
                     <Box mt={4}>
-                        <Typography variant="h6" gutterBottom>
-                            Sessions
-                        </Typography>
+                        <Stack direction="row" justifyContent="space-between" alignItems="center">
+                            <Typography variant="h5" gutterBottom>
+                                Sessions
+                            </Typography>
+                            <Button
+                                variant="contained"
+                                onClick={handleOpenSessionModal}
+                            >
+                                <AddIcon />
+                            </Button>
+                        </Stack>
                         <List>
                             {sessions.map((session) => (
                                 <ListItem
                                     key={session.id}
                                     sx={{
                                         "&:hover": {
-                                            backgroundColor:
-                                                "rgba(214, 202, 194, 0.08)",
+                                            backgroundColor: "rgba(214, 202, 194, 0.08)",
                                         },
                                     }}
                                     secondaryAction={
-                                        <IconButton
-                                            edge="end"
-                                            aria-label="delete"
-                                            onClick={() =>
-                                                handleDeleteSession(session.id)
-                                            }
-                                        >
-                                            <DeleteOutlinedIcon></DeleteOutlinedIcon>
-                                        </IconButton>
+                                        <Box sx={{ display: "flex", gap: 1 }}>
+                                            <IconButton
+                                                edge="end"
+                                                aria-label="edit"
+                                                onClick={() => handleEditSession(session)}
+                                            >
+                                                <EditNoteIcon />
+                                            </IconButton>
+                                            <IconButton
+                                                edge="end"
+                                                aria-label="delete"
+                                                onClick={() => handleDeleteSession(session.id)}
+                                            >
+                                                <DeleteOutlinedIcon />
+                                            </IconButton>
+                                        </Box>
                                     }
                                 >
                                     <ListItemText
@@ -168,6 +200,20 @@ export default function Project() {
                             ))}
                         </List>
                     </Box>
+                )}
+
+                {openSessionModal && (
+                    <SessionModal
+                        open={openSessionModal}
+                        onClose={handleCloseSessionModal}
+                        initialData={editingSession}
+                        projectID={id}
+                        onSubmit={async () => {
+                            await fetchSessions();
+                            setSessionUpdated(true);
+                            handleCloseSessionModal();
+                        }}
+                    />
                 )}
             </Box>
         </AnimatedPage>

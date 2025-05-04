@@ -20,7 +20,7 @@ export async function updateProject(id, { title, description, category, price })
 
         await db.execute(
             "UPDATE projects SET title = ?, description = ?, category = ?, price = ? WHERE id = ?",
-            [title, description, category, id]
+            [title, description, category, price, id]
         );
 
         return true;

@@ -51,12 +51,10 @@ export default function Home() {
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        console.log("useEffect started");
 
         async function loadProjects() {
             setLoading(true);
             const result = await getProjects();
-            console.log("Projects result in useEffect:", result);
             if (result) {
                 setProjects(result);
             }

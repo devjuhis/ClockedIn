@@ -16,6 +16,22 @@ export async function setSession(session) {
     }
 }
 
+export async function updateSession(sessionData) {
+    try {
+        const db = await Database.load("sqlite:test_v3.db");
+
+        await db.execute(
+            "UPDATE sessions SET project_id = ?, session_length = ?, comment = ? WHERE id = ?",
+            [sessionData.project_id, sessionData.session_length, sessionData.comment, sessionData.id]
+        );
+
+        return true;
+    } catch (error) {
+        console.error("Failed to update session:", error);
+        return false;
+    }
+}
+
 export async function getSessions(project_id) {
     try {
         const db = await Database.load("sqlite:test_v3.db");
