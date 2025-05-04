@@ -26,6 +26,7 @@
 - ⚛️ Built with modern React stack
 
 ---
+  
 
 ## 🛠️ Tech Stack
 
