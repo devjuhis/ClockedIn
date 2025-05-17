@@ -6,9 +6,10 @@ export default function TimerControls({ projectId }) {
     const timer = timers[projectId] || { time: 0, isRunning: false, isPaused: false };
 
     const formatTime = (t) => {
+        const hours = Math.floor(t / 3600);
         const mins = Math.floor(t / 60).toString().padStart(2, "0");
         const secs = (t % 60).toString().padStart(2, "0");
-        return `${mins}:${secs}`;
+        return `${hours}:${mins}:${secs}`;
     };
 
     return (

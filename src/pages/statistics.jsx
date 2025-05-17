@@ -17,6 +17,7 @@ import BackButton from "../components/BackButton";
 import AnimatedPage from "../components/animatedPage";
 
 import { getAllSessions } from "../functions/sessionFunctions";
+import {SessionDurationTooltip, ProjectPriceTooltip, ProjectsTooltip} from "../components/tooltips";
 
 const COLORS = [
     "#FF6B6B",  // Lämmin punainen
@@ -65,16 +66,14 @@ export default function Statistics() {
     const projectPrice = projects.map(project => ({
         name: project.name,
         price: parseFloat(
-            (project.sessions.reduce((total, session) => total + session.session_length * project.price, 0) / 3600).toFixed(3)
+            (project.sessions.reduce((total, session) => total + session.session_length * project.price, 0) / 3600).toFixed(2)
         )  
     }));
-    
-    
 
     const timePerProject = projects.map(project => ({
         name: project.name,
         time: parseFloat(
-            (project.sessions.reduce((total, session) => total + session.session_length, 0) / 3600).toFixed(3)
+            (project.sessions.reduce((total, session) => total + session.session_length, 0) / 3600).toFixed(1)
         )  
     }));
 
@@ -91,12 +90,9 @@ export default function Statistics() {
 
     const formattedSessions = Object.values(sessionsByDate).map(session => ({
         date: session.date,
-        duration: parseFloat((session.duration / 3600).toFixed(3))
+        duration: parseFloat((session.duration / 3600).toFixed(2))
     }));
-
-
-    
-
+    console.log(timePerProject);
     
 
     return (
@@ -109,7 +105,6 @@ export default function Statistics() {
                 </Typography>
 
                 <Grid container columns={12} spacing={3}>
-
                     <Paper sx={{ p: 3, height: "100%", width: "100%" }}>
                         <Typography variant="h6" gutterBottom>
                             Time Distribution (h)
@@ -132,7 +127,7 @@ export default function Statistics() {
                                         />
                                     ))}
                                 </Pie>
-                                <Tooltip />
+                                <Tooltip content={ProjectsTooltip} />
                             </PieChart>
                         </ResponsiveContainer>
                     </Paper>
@@ -145,7 +140,7 @@ export default function Statistics() {
                             <LineChart data={formattedSessions}>
                                 <XAxis dataKey="date" />
                                 <YAxis />
-                                <Tooltip />
+                                <Tooltip content={SessionDurationTooltip} />
                                 <Line
                                     type="monotone"
                                     dataKey="duration"
@@ -164,11 +159,15 @@ export default function Statistics() {
                             <BarChart data={projectPrice}>
                                 <XAxis dataKey="name" />
                                 <YAxis />
-                                <Tooltip cursor={{fill: 'none'}} />
+                                <Tooltip 
+                                    content={ProjectPriceTooltip} 
+                                    cursor={{ fill: "rgba(26, 26, 26, 0.2)" }} 
+                                />
                                 <Bar
                                     dataKey="price"
                                     fill={theme.palette.primary.main}
                                     unit={"€"}
+                                    radius={[4, 4, 0, 0]}
                                 />
                             </BarChart>
                         </ResponsiveContainer>

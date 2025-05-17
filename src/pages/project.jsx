@@ -25,6 +25,7 @@ import AnimatedPage from "../components/animatedPage";
 
 import { getProject, deleteProject } from "../functions/projectFunctions";
 import { getSessions, deleteSession } from "../functions/sessionFunctions";
+import { formatSeconds } from "../functions/formatTime";
 
 export default function Project() {
     const { id } = useParams();
@@ -183,7 +184,7 @@ export default function Project() {
                                     }
                                 >
                                     <ListItemText
-                                        primary={`Session Length: ${session.session_length} s`}
+                                        primary={`Session Length: ${formatSeconds(session.session_length)}`}
                                         secondary={
                                             <>
                                                 {session.date
